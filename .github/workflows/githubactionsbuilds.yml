@@ -17,22 +17,6 @@ jobs:
       with:
         token: ${{secrets.github_token}}
 
-  intellicode:
-    needs: generate_version_number
-    runs-on: windows-latest
-    steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0 # We need to fetch the entire Git history in order to verify the authenticity.
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 9.0.x
-    - name: Build with dotnet
-      run: dotnet build DeveEveWindowManager_DesktopOnly.sln -c Release /p:Version=1.0.${{needs.generate_version_number.outputs.build_number}} # Project needs to build before training a model.
-    - name: Train Intellicode Model
-      uses: microsoft/vs-intellicode@v1
-
   build_windows:
     needs: generate_version_number
     runs-on: windows-latest
@@ -76,28 +60,28 @@ jobs:
       run: dotnet publish .\DeveEveWindowManager.Desktop\DeveEveWindowManager.Desktop.csproj -r win-x64 -c Release -o "DeveEveWindowManager\bin\Release\net9.0-windows\win-x64\publishtrimmedcopyused\" /p:PublishSingleFile=true /p:SelfContained=true /p:IncludeNativeLibrariesForSelfExtract=true /p:PublishTrimmed=true /p:TrimMode=CopyUsed /p:Version=1.0.${{needs.generate_version_number.outputs.build_number}}    
     # - name: Pack
     #   run: dotnet pack DeveImageOptimizer\DeveImageOptimizer.csproj --verbosity normal --no-build -c Release /p:Version=1.0.${{needs.generate_version_number.outputs.build_number}}
-    - name: Run CodeCov
-      uses: codecov/codecov-action@v4
-      with:
-        directory: ./DeveMazeGeneratorCore.Tests/TestResults
-        fail_ci_if_error: true # optional (default = false)
-        verbose: true # optional (default = false)
-      env:
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+    # - name: Run CodeCov
+    #   uses: codecov/codecov-action@v4
+    #   with:
+    #     directory: ./DeveMazeGeneratorCore.Tests/TestResults
+    #     fail_ci_if_error: true # optional (default = false)
+    #     verbose: true # optional (default = false)
+    #   env:
+    #     CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: DeveEveWindowManager_win-x64
         path: DeveEveWindowManager\bin\Release\net9.0-windows\win-x64\publish\DeveEveWindowManager.exe
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: DeveEveWindowManager_win-x64_untrimmed
         path: DeveEveWindowManager\bin\Release\net9.0-windows\win-x64\publishuntrimmed\DeveEveWindowManager.exe
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: DeveEveWindowManager_win-x64_trimlink
         path: DeveEveWindowManager\bin\Release\net9.0-windows\win-x64\publishtrimmedlink\DeveEveWindowManager.exe
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: DeveEveWindowManager_win-x64_trimcopyused
         path: DeveEveWindowManager\bin\Release\net9.0-windows\win-x64\publishtrimmedcopyused\DeveEveWindowManager.exe
