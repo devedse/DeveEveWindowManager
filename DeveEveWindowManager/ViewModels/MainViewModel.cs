@@ -23,6 +23,8 @@ public partial class MainViewModel : ViewModelBase
 
     public ICommand LoadScreensCommand => new RelayCommand(LoadScreens);
     public ICommand LoadWindowInstancesCommand => new RelayCommand(LoadWindowInstances);
+    [ObservableProperty]
+    private WindowInstance? _selectedEveInstance;
 
     public double RelativeWidthComparedToHeight => Screens.Count == 0 ? 1 : (double)Screens.Max(t => t.OriginalBounds.X + t.OriginalBounds.Width) / Screens.Max(t => t.OriginalBounds.Y + t.OriginalBounds.Height);
 
@@ -33,10 +35,8 @@ public partial class MainViewModel : ViewModelBase
         {
             Screens.Add(screen);
         }
-        EveInstances.Add(new WindowInstance()
-        {
-            WindowTitle = "EVE - Devedse"
-        });
+        EveInstances.Add(new WindowInstance() { WindowTitle = "EVE - Devedse" });
+        EveInstances.Add(new WindowInstance() { WindowTitle = "EVE - AnotherCharacter" });
     }
 
     public MainViewModel(ScreenService screenService, WindowService windowService)

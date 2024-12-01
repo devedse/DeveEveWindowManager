@@ -14,105 +14,112 @@
 		<vm:MainViewModel />
 	</Design.DataContext>
 
-	<StackPanel>
-		<StackPanel.Resources>
+	<DockPanel>
+		<DockPanel.Resources>
 			<localconverters:TextCaseConverter x:Key="TextCaseConverter" />
 			<localconverters:RelativeToActualConverter x:Key="RelativeToActualConverter" />
 			<localconverters:RelativeToActualMultiConverter x:Key="RelativeToActualMultiConverter" />
-		</StackPanel.Resources>
+		</DockPanel.Resources>
 
-		<TextBlock Text="{Binding Greeting}"/>
-		<TextBlock Text="{Binding RelativeWidthComparedToHeight}"/>
+		<TextBlock DockPanel.Dock="Top" Text="{Binding Greeting}"/>
 
-		<Button Command="{Binding LoadScreensCommand}" Content="Reload Screens"/>
-		<Button Command="{Binding LoadWindowInstancesCommand}" Content="Reload Eve Instances"/>
+		<StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+			<Button Command="{Binding LoadScreensCommand}" Content="Reload Screens"/>
+			<Button Margin="10,0,0,0" Command="{Binding LoadWindowInstancesCommand}" Content="Reload Eve Instances"/>
+		</StackPanel>
 
-		<!-- Display Eve Instances -->
-		<ItemsControl ItemsSource="{Binding EveInstances}">
-			<ItemsControl.ItemTemplate>
-				<DataTemplate>
-					<Border Background="Gray" CornerRadius="5" Padding="10" Margin="5">
-						<TextBlock Text="{Binding WindowTitle}"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   FontSize="16"
-                                   Foreground="White" />
-					</Border>
-				</DataTemplate>
-			</ItemsControl.ItemTemplate>
-		</ItemsControl>
+		<StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
 
-		<ItemsControl ItemsSource="{Binding Screens}">
-			<ItemsControl.ItemsPanel>
-				<ItemsPanelTemplate>
-					<Canvas Height="200" Background="Blue" Margin="3">
-						<Canvas.Width>
-							<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
-								<!-- Grab RelativeWidthComparedToHeight from the viewmodel -->
-								<Binding Path="RelativeWidthComparedToHeight"/>
-								<Binding Path="Bounds.Height" RelativeSource="{RelativeSource Self}"/>
-							</MultiBinding>
-						</Canvas.Width>
-					</Canvas>
-				</ItemsPanelTemplate>
-			</ItemsControl.ItemsPanel>
-			<ItemsControl.ItemTemplate>
-				<DataTemplate>
-					<!-- Corrected the Border properties -->
-					<Border Background="Green" BorderBrush="OrangeRed" BorderThickness="5"
-                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-						<!-- Viewbox scales the TextBlock to fit inside the Border -->
-						<Viewbox Stretch="Uniform"
-                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-							<TextBlock Text="{Binding ScreenDetails}"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       TextAlignment="Center"
-                                       Foreground="White" />
-						</Viewbox>
-					</Border>
-				</DataTemplate>
-			</ItemsControl.ItemTemplate>
-			<ItemsControl.Styles>
-				<Style Selector="ContentPresenter" x:DataType="localmodels:ScreenInfo">
-					<!-- Positioning -->
-					<Setter Property="Canvas.Left">
-						<Setter.Value>
-							<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
-								<Binding Path="RelativeBounds.X"/>
-								<Binding Path="Bounds.Width" RelativeSource="{RelativeSource AncestorType=Canvas}"/>
-							</MultiBinding>
-						</Setter.Value>
-					</Setter>
-					<Setter Property="Canvas.Top">
-						<Setter.Value>
-							<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
-								<Binding Path="RelativeBounds.Y"/>
-								<Binding Path="Bounds.Height" RelativeSource="{RelativeSource AncestorType=Canvas}"/>
-							</MultiBinding>
-						</Setter.Value>
-					</Setter>
-					<!-- Sizing -->
-					<Setter Property="Width">
-						<Setter.Value>
-							<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
-								<Binding Path="RelativeBounds.Width"/>
-								<Binding Path="Bounds.Width" RelativeSource="{RelativeSource AncestorType=Canvas}"/>
-							</MultiBinding>
-						</Setter.Value>
-					</Setter>
-					<Setter Property="Height">
-						<Setter.Value>
-							<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
-								<Binding Path="RelativeBounds.Height"/>
-								<Binding Path="Bounds.Height" RelativeSource="{RelativeSource AncestorType=Canvas}"/>
-							</MultiBinding>
-						</Setter.Value>
-					</Setter>
-				</Style>
-			</ItemsControl.Styles>
-		</ItemsControl>
+			<!-- Display Eve Instances -->
+			<ListBox ItemsSource="{Binding EveInstances}"
+					 SelectionMode="Single"
+					 SelectedItem="{Binding SelectedEveInstance, Mode=TwoWay}">
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<Border Background="Gray" CornerRadius="5" Padding="10" Margin="5">
+							<TextBlock Text="{Binding WindowTitle}"
+									   HorizontalAlignment="Center"
+									   VerticalAlignment="Center"
+									   FontSize="16"
+									   Foreground="White" />
+						</Border>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
 
-	</StackPanel>
+
+			<ItemsControl ItemsSource="{Binding Screens}" VerticalAlignment="Top">
+				<ItemsControl.ItemsPanel>
+					<ItemsPanelTemplate>
+						<Canvas Height="200" Background="Blue" Margin="3">
+							<Canvas.Width>
+								<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
+									<!-- Grab RelativeWidthComparedToHeight from the viewmodel -->
+									<Binding Path="RelativeWidthComparedToHeight"/>
+									<Binding Path="Bounds.Height" RelativeSource="{RelativeSource Self}"/>
+								</MultiBinding>
+							</Canvas.Width>
+						</Canvas>
+					</ItemsPanelTemplate>
+				</ItemsControl.ItemsPanel>
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<!-- Corrected the Border properties -->
+						<Border Background="Green" BorderBrush="OrangeRed" BorderThickness="5"
+								HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+							<!-- Viewbox scales the TextBlock to fit inside the Border -->
+							<Viewbox Stretch="Uniform"
+									 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+								<TextBlock Text="{Binding ScreenDetails}"
+										   HorizontalAlignment="Center"
+										   VerticalAlignment="Center"
+										   TextAlignment="Center"
+										   Foreground="White" />
+							</Viewbox>
+						</Border>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+				<ItemsControl.Styles>
+					<Style Selector="ContentPresenter" x:DataType="localmodels:ScreenInfo">
+						<!-- Positioning -->
+						<Setter Property="Canvas.Left">
+							<Setter.Value>
+								<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
+									<Binding Path="RelativeBounds.X"/>
+									<Binding Path="Bounds.Width" RelativeSource="{RelativeSource AncestorType=Canvas}"/>
+								</MultiBinding>
+							</Setter.Value>
+						</Setter>
+						<Setter Property="Canvas.Top">
+							<Setter.Value>
+								<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
+									<Binding Path="RelativeBounds.Y"/>
+									<Binding Path="Bounds.Height" RelativeSource="{RelativeSource AncestorType=Canvas}"/>
+								</MultiBinding>
+							</Setter.Value>
+						</Setter>
+						<!-- Sizing -->
+						<Setter Property="Width">
+							<Setter.Value>
+								<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
+									<Binding Path="RelativeBounds.Width"/>
+									<Binding Path="Bounds.Width" RelativeSource="{RelativeSource AncestorType=Canvas}"/>
+								</MultiBinding>
+							</Setter.Value>
+						</Setter>
+						<Setter Property="Height">
+							<Setter.Value>
+								<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
+									<Binding Path="RelativeBounds.Height"/>
+									<Binding Path="Bounds.Height" RelativeSource="{RelativeSource AncestorType=Canvas}"/>
+								</MultiBinding>
+							</Setter.Value>
+						</Setter>
+					</Style>
+				</ItemsControl.Styles>
+			</ItemsControl>
+		</StackPanel>
+
+	</DockPanel>
 
 </UserControl>
