@@ -1,80 +1,12 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:DeveEveWindowManager.ViewModels"
-		xmlns:localconverters="clr-namespace:DeveEveWindowManager.Converters"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:DeveEveWindowManager.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="DeveEveWindowManager.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="DeveEveWindowManager">
-
-	<Design.DataContext>
-		<vm:MainWindowViewModel/>
-	</Design.DataContext>
-
-	<Window.Resources>
-		<localconverters:RelativeToActualConverter x:Key="RelativeToActualConverter" />
-		<localconverters:RelativeToActualMultiConverter x:Key="RelativeToActualMultiConverter" />
-	</Window.Resources>
-
-	<StackPanel>
-		<!-- Debugging Text -->
-		<TextBlock Text="{Binding Greeting}"
-                   Foreground="Black"
-                   FontSize="30"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Top" />
-
-		<Canvas x:Name="ScreenCanvas2" Background="LightGray" Width="800" Height="450">
-			<ItemsControl Items="{Binding Screens}">
-				<ItemsControl.ItemsPanel>
-					<ItemsPanelTemplate>
-						<Canvas />
-					</ItemsPanelTemplate>
-				</ItemsControl.ItemsPanel>
-				<ItemsControl.ItemTemplate>
-					<DataTemplate>
-						<Button Content="{Binding Name}"
-								Background="LightBlue"
-								Foreground="Black">
-							<!-- Bind Canvas.Left -->
-							<Canvas.Left>
-								<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
-									<Binding Path="RelativeBounds.X" />
-									<Binding ElementName="ScreenCanvas2" Path="Bounds.Width" />
-								</MultiBinding>
-							</Canvas.Left>
-
-							<!-- Bind Canvas.Top -->
-							<Canvas.Top>
-								<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
-									<Binding Path="RelativeBounds.Y" />
-									<Binding ElementName="ScreenCanvas2" Path="Bounds.Height" />
-								</MultiBinding>
-							</Canvas.Top>
-
-							<!-- Bind Width -->
-							<Button.Width>
-								<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
-									<Binding Path="RelativeBounds.Width" />
-									<Binding ElementName="ScreenCanvas2" Path="Bounds.Width" />
-								</MultiBinding>
-							</Button.Width>
-
-							<!-- Bind Height -->
-							<Button.Height>
-								<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
-									<Binding Path="RelativeBounds.Height" />
-									<Binding ElementName="ScreenCanvas2" Path="Bounds.Height" />
-								</MultiBinding>
-							</Button.Height>
-						</Button>
-					</DataTemplate>
-				</ItemsControl.ItemTemplate>
-			</ItemsControl>
-		</Canvas>
-
-	</StackPanel>
-
+        <views:MainView />
 </Window>

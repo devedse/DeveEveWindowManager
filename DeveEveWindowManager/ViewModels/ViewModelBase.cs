@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using ReactiveUI;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace DeveEveWindowManager.ViewModels
+namespace DeveEveWindowManager.ViewModels;
+
+public abstract class ViewModelBase : ObservableObject
 {
-    public class ViewModelBase : ReactiveObject
-    {
-    }
 }

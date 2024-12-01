@@ -10,7 +10,7 @@ namespace DeveEveWindowManager.AvaloniaHelpers
         {
             collection.AddSingleton<ScreenService>();
 
-            collection.AddTransient<MainWindowViewModel>();
+            collection.AddTransient<MainViewModel>();
         }
     }
 }

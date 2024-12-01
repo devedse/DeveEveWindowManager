@@ -19,7 +19,7 @@ namespace DeveEveWindowManager.Services
             var blah = (IClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime;
             var mainWindow = blah.MainWindow;
 
-            var mainWindow2 = MainWindow.MainWindowDingFirstTimeOnlyForReadingScreens;
+            //var mainWindow2 = MainWindow.MainWindowDingFirstTimeOnlyForReadingScreens;
 
             var screens = new List<ScreenInfo>();
             var screenImpl = mainWindow.Screens;
@@ -63,9 +63,9 @@ namespace DeveEveWindowManager.Services
                 {
                     OriginalBounds = bounds,
                     RelativeBounds = relativeBounds,
-                    Primary = screen.Primary,
+                    IsPrimary = screen.IsPrimary,
                     WorkingArea = screen.WorkingArea,
-                    PixelDensity = screen.PixelDensity
+                    Scaling = screen.Scaling
                 });
             }
 

@@ -3,28 +3,28 @@ using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using DeveEveWindowManager.ViewModels;
 
-namespace DeveEveWindowManager
+namespace DeveEveWindowManager;
+
+public class ViewLocator : IDataTemplate
 {
-    public class ViewLocator : IDataTemplate
+    public Control? Build(object? param)
     {
-        public IControl Build(object data)
-        {
-            var name = data.GetType().FullName!.Replace("ViewModel", "View");
-            var type = Type.GetType(name);
+        if (param is null)
+            return null;
 
-            if (type != null)
-            {
-                return (Control)Activator.CreateInstance(type)!;
-            }
-            else
-            {
-                return new TextBlock { Text = "Not Found: " + name };
-            }
+        var name = param.GetType().FullName!.Replace("ViewModel", "View", StringComparison.Ordinal);
+        var type = Type.GetType(name);
+
+        if (type != null)
+        {
+            return (Control)Activator.CreateInstance(type)!;
         }
 
-        public bool Match(object data)
-        {
-            return data is ViewModelBase;
-        }
+        return new TextBlock { Text = "Not Found: " + name };
+    }
+
+    public bool Match(object? data)
+    {
+        return data is ViewModelBase;
     }
 }
