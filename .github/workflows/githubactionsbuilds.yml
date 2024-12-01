@@ -87,7 +87,7 @@ jobs:
         path: DeveEveWindowManager\bin\Release\net9.0-windows\win-x64\publishtrimmedcopyused\DeveEveWindowManager.exe
 
   release_github:
-    needs: [generate_version_number, intellicode, build_windows]
+    needs: [generate_version_number, build_windows]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
     steps:
