@@ -14,18 +14,17 @@
 		<vm:MainViewModel />
 	</Design.DataContext>
 
-	<!--<Window.Resources>
-		<localconverters:RelativeToActualConverter x:Key="RelativeToActualConverter" />
-		<localconverters:RelativeToActualMultiConverter x:Key="RelativeToActualMultiConverter" />
-	</Window.Resources>-->
-
 	<StackPanel>
+		<StackPanel.Resources>
+			<localconverters:TextCaseConverter x:Key="TextCaseConverter" />
+		</StackPanel.Resources>
+		
 		<TextBlock Text="{Binding Greeting}"/>
 
 		<ItemsControl ItemsSource="{Binding Screens}">
 			<ItemsControl.ItemsPanel>
 				<ItemsPanelTemplate>
-					<Canvas Width="50" Height="50" Background="Yellow" Margin="3"/>
+					<Canvas Width="600" Height="250" Background="Yellow" Margin="3"/>
 				</ItemsPanelTemplate>
 			</ItemsControl.ItemsPanel>
 			<ItemsControl.ItemTemplate>
