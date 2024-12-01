@@ -4,6 +4,7 @@
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <ApplicationIcon>Images\DeveEveWindowManager.ico</ApplicationIcon>
   </PropertyGroup>
   
   <ItemGroup>
@@ -31,5 +32,9 @@
     <AvaloniaResource Include="Images\bg2.webp">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </AvaloniaResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Images\DeveEveWindowManager.ico" />
   </ItemGroup>
 </Project>
