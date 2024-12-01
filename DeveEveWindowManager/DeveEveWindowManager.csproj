@@ -11,7 +11,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <None Remove="Images\bg2.png" />
+    <None Remove="Images\bg2.webp" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,12 +28,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AvaloniaResource Include="Images\bg2.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Images\bg2.webp">
+    <AvaloniaResource Include="Images\bg2.webp">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
+    </AvaloniaResource>
   </ItemGroup>
 </Project>
