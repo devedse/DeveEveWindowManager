@@ -14,7 +14,7 @@ namespace DeveEveWindowManager.ViewModels;
 public partial class MainViewModel : ViewModelBase
 {
     [ObservableProperty]
-    private string _greeting = "Welcome to Avalonia!";
+    private string _greeting = "Welcome to DeveEveWindowManager, please click on Reload screens first";
     private readonly ScreenService _screenService;
 
     public ObservableCollection<ScreenInfo> Screens { get; }
