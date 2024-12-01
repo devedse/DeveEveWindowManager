@@ -15,6 +15,10 @@
 	</Design.DataContext>
 
 	<DockPanel>
+		<DockPanel.Background>
+			<ImageBrush Source="/Images/bg2.png" Stretch="UniformToFill"/>
+		</DockPanel.Background>
+		
 		<DockPanel.Resources>
 			<localconverters:TextCaseConverter x:Key="TextCaseConverter" />
 			<localconverters:RelativeToActualConverter x:Key="RelativeToActualConverter" />
@@ -24,7 +28,11 @@
 
 
 
-		<TextBlock DockPanel.Dock="Top" Text="{Binding Greeting}"/>
+		<TextBlock DockPanel.Dock="Top" Text="{Binding Greeting}" Foreground="White" Padding="20" FontSize="20">
+			<TextBlock.Background>
+				<SolidColorBrush Color="Black" Opacity="0.8"/>
+			</TextBlock.Background>
+		</TextBlock>
 
 		<!--<StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
 			<Button BorderThickness="5" Command="{Binding LoadScreensCommand}" Content="Reload Screens"/>
@@ -37,6 +45,9 @@
 			<ListBox ItemsSource="{Binding EveInstances}"
 					 SelectionMode="Single"
 					 SelectedItem="{Binding SelectedEveInstance, Mode=TwoWay}">
+				<ListBox.Background>
+					<SolidColorBrush Color="Black" Opacity="0.8"/>
+				</ListBox.Background>
 				<ListBox.ItemTemplate>
 					<DataTemplate>
 						<Border Background="Gray" CornerRadius="5" Padding="10" Margin="5">
@@ -59,7 +70,10 @@
 				<ItemsControl ItemsSource="{Binding Screens}" VerticalAlignment="Top">
 					<ItemsControl.ItemsPanel>
 						<ItemsPanelTemplate>
-							<Canvas Height="200" Background="DarkGreen" Margin="3">
+							<Canvas Height="200" Margin="3">
+								<Canvas.Background>
+									<SolidColorBrush Color="DarkGreen" Opacity="0.8"/>
+								</Canvas.Background>
 								<Canvas.Width>
 									<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
 										<Binding Path="RelativeWidthComparedToHeight"/>
@@ -73,11 +87,13 @@
 						<DataTemplate>
 							<!-- Button styled as a rectangle -->
 							<Button Command="{Binding ToggleSelectionCommand}"
+									CornerRadius="0"
 									Background="{Binding IsSelected, Converter={StaticResource BoolToBrushConverter}, ConverterParameter='Green,DarkGray'}"
 									BorderBrush="{Binding IsSelected, Converter={StaticResource BoolToBrushConverter}, ConverterParameter='OrangeRed,SlateGray'}"
 									BorderThickness="5"
 									HorizontalAlignment="Stretch"
 									VerticalAlignment="Stretch">
+								
 								<!-- Display screen details -->
 								<Viewbox Stretch="Uniform"
 										 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -139,7 +155,26 @@
 					</ItemsControl.Styles>
 				</ItemsControl>
 
-				<Button Command="{Binding ApplyCommand}" Content="Apply"/>
+				<Button 
+					Margin="10" 
+					Command="{Binding ApplyCommand}" 
+					Content="Apply" 
+					Padding="20" 
+					FontSize="20" 
+					CornerRadius="5"
+					Background="#CC767676" 
+					Foreground="White" >
+					<Button.Styles>
+						<Style Selector="Button:pointerover /template/ ContentPresenter">
+							<Setter Property="Background" Value="#CC878787"/>
+							<Setter Property="Foreground" Value="White" />
+						</Style>
+						<Style Selector="Button:pressed /template/ ContentPresenter">
+							<Setter Property="Background" Value="#CC989898"/>
+							<Setter Property="Foreground" Value="White" />
+						</Style>
+					</Button.Styles>
+				</Button>
 			</StackPanel>
 
 
