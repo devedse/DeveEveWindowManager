@@ -33,26 +33,24 @@
 			</ItemsControl.ItemsPanel>
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<Rectangle Fill="Green" Stroke="OrangeRed" StrokeThickness="5">
-						<!-- Bind Width using the converter -->
-						<Rectangle.Width>
-							<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
-								<Binding Path="RelativeBounds.Width"/>
-								<Binding Path="Width" RelativeSource="{RelativeSource AncestorType=Canvas}"/>
-							</MultiBinding>
-						</Rectangle.Width>
-						<!-- Bind Height using the converter -->
-						<Rectangle.Height>
-							<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
-								<Binding Path="RelativeBounds.Height"/>
-								<Binding Path="Height" RelativeSource="{RelativeSource AncestorType=Canvas}"/>
-							</MultiBinding>
-						</Rectangle.Height>
-					</Rectangle>
+					<!-- Corrected the Border properties -->
+					<Border Background="Green" BorderBrush="OrangeRed" BorderThickness="5"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+						<!-- Viewbox scales the TextBlock to fit inside the Border -->
+						<Viewbox Stretch="Uniform"
+                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+							<TextBlock Text="{Binding ScreenDetails}"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       TextAlignment="Center"
+                                       Foreground="White" />
+						</Viewbox>
+					</Border>
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 			<ItemsControl.Styles>
 				<Style Selector="ContentPresenter" x:DataType="localmodels:ScreenInfo">
+					<!-- Positioning -->
 					<Setter Property="Canvas.Left">
 						<Setter.Value>
 							<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
@@ -61,11 +59,27 @@
 							</MultiBinding>
 						</Setter.Value>
 					</Setter>
-
 					<Setter Property="Canvas.Top">
 						<Setter.Value>
 							<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
 								<Binding Path="RelativeBounds.Y"/>
+								<Binding Path="Height" RelativeSource="{RelativeSource AncestorType=Canvas}"/>
+							</MultiBinding>
+						</Setter.Value>
+					</Setter>
+					<!-- Sizing -->
+					<Setter Property="Width">
+						<Setter.Value>
+							<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
+								<Binding Path="RelativeBounds.Width"/>
+								<Binding Path="Width" RelativeSource="{RelativeSource AncestorType=Canvas}"/>
+							</MultiBinding>
+						</Setter.Value>
+					</Setter>
+					<Setter Property="Height">
+						<Setter.Value>
+							<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
+								<Binding Path="RelativeBounds.Height"/>
 								<Binding Path="Height" RelativeSource="{RelativeSource AncestorType=Canvas}"/>
 							</MultiBinding>
 						</Setter.Value>

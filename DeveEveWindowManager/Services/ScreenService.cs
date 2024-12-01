@@ -65,7 +65,8 @@ namespace DeveEveWindowManager.Services
                     RelativeBounds = relativeBounds,
                     IsPrimary = screen.IsPrimary,
                     WorkingArea = screen.WorkingArea,
-                    Scaling = screen.Scaling
+                    Scaling = screen.Scaling,
+                    DisplayName = screen.DisplayName
                 });
             }
 

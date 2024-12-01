@@ -53,7 +53,8 @@ public partial class MainViewModel : ViewModelBase
                     RelativeBounds = new Rect(0, 0, 0.42, 1),
                     IsPrimary = true,
                     WorkingArea = new PixelRect(0, 0, 100, 100),
-                    Scaling = 1
+                    Scaling = 1,
+                    DisplayName = "G27Q"
                 },
                 new ScreenInfo()
                 {
@@ -61,7 +62,8 @@ public partial class MainViewModel : ViewModelBase
                     RelativeBounds = new Rect(0.42, 0, 0.58, 1),
                     IsPrimary = false,
                     WorkingArea = new PixelRect(150, 0, 100, 200),
-                    Scaling = 1
+                    Scaling = 1,
+                    DisplayName = "Dell AW3418DW"
                 }
             };
     }
