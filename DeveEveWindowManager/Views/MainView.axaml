@@ -79,7 +79,7 @@
 								<!-- Display screen details -->
 								<Viewbox Stretch="Uniform"
 										 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-									<TextBlock Text="{Binding DisplayName}"
+									<TextBlock Text="{Binding ScreenDetails}"
 											   HorizontalAlignment="Center"
 											   VerticalAlignment="Center"
 											   TextAlignment="Center"

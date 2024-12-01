@@ -55,6 +55,7 @@ namespace DeveEveWindowManager.Services
                 totalHeight = totalHeight == 0 ? 1 : totalHeight;
             }
 
+            int i = 0;
             // Now, calculate the relative bounds for each screen
             foreach (var screen in screenImpl.All)
             {
@@ -74,7 +75,7 @@ namespace DeveEveWindowManager.Services
                     IsPrimary = screen.IsPrimary,
                     WorkingArea = screen.WorkingArea,
                     Scaling = screen.Scaling,
-                    DisplayName = screen.DisplayName
+                    DisplayName = string.IsNullOrWhiteSpace(screen.DisplayName) ? $"Display {i}" : screen.DisplayName
                 });
             }
 
