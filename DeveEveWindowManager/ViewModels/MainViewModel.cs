@@ -14,6 +14,8 @@ namespace DeveEveWindowManager.ViewModels;
 
 public partial class MainViewModel : ViewModelBase
 {
+    public string AssemblyVersion => typeof(MainViewModel).Assembly.GetName().Version?.ToString() ?? "Unknown";
+
     [ObservableProperty]
     private string _greeting = "Welcome to DeveEveWindowManager, select your client window and the screens you want the window to show at.";
     private readonly ScreenService? _screenService;
