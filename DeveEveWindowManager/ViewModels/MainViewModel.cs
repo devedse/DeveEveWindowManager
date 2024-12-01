@@ -1,9 +1,12 @@
 ﻿using Avalonia;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using DeveEveWindowManager.Models;
 using DeveEveWindowManager.Services;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace DeveEveWindowManager.ViewModels;
 
@@ -11,30 +14,37 @@ public partial class MainViewModel : ViewModelBase
 {
     [ObservableProperty]
     private string _greeting = "Welcome to Avalonia!";
+    private readonly ScreenService _screenService;
 
     public ObservableCollection<ScreenInfo> Screens { get; }
 
+    public ICommand LoadScreensCommand => new RelayCommand(LoadScreens);
+
+    public MainViewModel()
+    {
+        //Design time
+        Screens = new ObservableCollection<ScreenInfo>(MockScreens());
+
+    }
+
+    public MainViewModel(ScreenService screenService)
+    {
+        Screens = new ObservableCollection<ScreenInfo>(MockScreens());
+        _screenService = screenService;
+    }
+
+
+    private void LoadScreens()
+    {
+        Screens.Clear();
+        foreach (var screen in _screenService.GetScreens())
+        {
+            Screens.Add(screen);
+        }
+    }
+
     private List<ScreenInfo> MockScreens()
     {
-        //return new List<ScreenInfo>()
-        //{
-        //    new ScreenInfo()
-        //    {
-        //        OriginalBounds = new PixelRect(0, 0, 2560, 1440),
-        //        RelativeBounds = new Rect(0, 0, 0.42, 1),
-        //        Primary = true,
-        //        WorkingArea = new PixelRect(0, 0, 1920, 1080),
-        //        PixelDensity = 1
-        //    },
-        //    new ScreenInfo()
-        //    {
-        //        OriginalBounds = new PixelRect(0, 0, 3440, 1440),
-        //        RelativeBounds = new Rect(0.42, 0, 0.58, 1),
-        //        Primary = true,
-        //        WorkingArea = new PixelRect(0, 0, 1920, 1080),
-        //        PixelDensity = 1
-        //    }
-        //};
         return new List<ScreenInfo>()
             {
                 new ScreenInfo()
@@ -56,15 +66,4 @@ public partial class MainViewModel : ViewModelBase
             };
     }
 
-    public MainViewModel()
-    {
-        //Design time
-        Screens = new ObservableCollection<ScreenInfo>(MockScreens());
-
-    }
-
-    public MainViewModel(ScreenService screenService)
-    {
-        Screens = new ObservableCollection<ScreenInfo>(MockScreens());
-    }
 }
