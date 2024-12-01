@@ -4,7 +4,6 @@
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
-    <ApplicationIcon>Images\DeveEveWindowManager.ico</ApplicationIcon>
   </PropertyGroup>
   
   <ItemGroup>
@@ -35,6 +34,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Images\DeveEveWindowManager.ico" />
+    <AvaloniaResource Include="Images\DeveEveWindowManager.ico" />
   </ItemGroup>
 </Project>

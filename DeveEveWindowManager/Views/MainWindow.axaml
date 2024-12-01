@@ -6,7 +6,7 @@
         xmlns:views="clr-namespace:DeveEveWindowManager.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="DeveEveWindowManager.Views.MainWindow"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Images/DeveEveWindowManager.ico"
         Title="DeveEveWindowManager">
         <views:MainView />
 </Window>
