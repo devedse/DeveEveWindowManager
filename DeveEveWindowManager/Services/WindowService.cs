@@ -59,5 +59,47 @@ namespace DeveEveWindowManager.Services
             return foundWindows;
         }
 
+        public void MoveAndResizeWindow(WindowInstance selectedWindow, List<ScreenInfo> desiredScreens)
+        {
+            if (selectedWindow == null)
+            {
+                Console.WriteLine("No window selected.");
+                return;
+            }
+
+            if (desiredScreens == null || !desiredScreens.Any())
+            {
+                Console.WriteLine("No screens selected.");
+                return;
+            }
+
+            // Calculate bounds to stretch across the desired screens
+            int left = desiredScreens.Min(screen => screen.OriginalBounds.X);
+            int top = desiredScreens.Min(screen => screen.OriginalBounds.Y);
+            int right = desiredScreens.Max(screen => screen.OriginalBounds.Right);
+            int bottom = desiredScreens.Max(screen => screen.OriginalBounds.Bottom);
+
+            int width = right - left;
+            int height = bottom - top;
+
+            // Move and resize the window
+            if (selectedWindow.HWnd != IntPtr.Zero)
+            {
+                SetWindowPos(
+                    selectedWindow.HWnd,
+                    IntPtr.Zero,
+                    left,
+                    top,
+                    width,
+                    height,
+                    SWP_NOZORDER | SWP_SHOWWINDOW);
+                Console.WriteLine($"Window '{selectedWindow.WindowTitle}' moved and resized to bounds: ({left}, {top}, {width}, {height})");
+            }
+            else
+            {
+                Console.WriteLine($"Invalid window handle for '{selectedWindow.WindowTitle}'.");
+            }
+        }
+
     }
 }

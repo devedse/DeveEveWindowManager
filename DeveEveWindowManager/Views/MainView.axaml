@@ -52,84 +52,84 @@
 
 
 
+			<StackPanel>
 
+				<ItemsControl ItemsSource="{Binding Screens}" VerticalAlignment="Top">
+					<ItemsControl.ItemsPanel>
+						<ItemsPanelTemplate>
+							<Canvas Height="200" Background="DarkGreen" Margin="3">
+								<Canvas.Width>
+									<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
+										<Binding Path="RelativeWidthComparedToHeight"/>
+										<Binding Path="Bounds.Height" RelativeSource="{RelativeSource Self}"/>
+									</MultiBinding>
+								</Canvas.Width>
+							</Canvas>
+						</ItemsPanelTemplate>
+					</ItemsControl.ItemsPanel>
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<!-- Button styled as a rectangle -->
+							<Button Command="{Binding ToggleSelectionCommand}"
+									Background="{Binding IsSelected, Converter={StaticResource BoolToBrushConverter}, ConverterParameter='Green,DarkGray'}"
+									BorderBrush="{Binding IsSelected, Converter={StaticResource BoolToBrushConverter}, ConverterParameter='OrangeRed,DarkGray'}"
+									BorderThickness="5"
+									HorizontalAlignment="Stretch"
+									VerticalAlignment="Stretch">
+								<!-- Display screen details -->
+								<Viewbox Stretch="Uniform"
+										 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+									<TextBlock Text="{Binding DisplayName}"
+											   HorizontalAlignment="Center"
+											   VerticalAlignment="Center"
+											   TextAlignment="Center"
+											   Foreground="White" />
+								</Viewbox>
+							</Button>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+					<ItemsControl.Styles>
+						<Style Selector="ContentPresenter" x:DataType="localmodels:ScreenInfo">
+							<!-- Positioning -->
+							<Setter Property="Canvas.Left">
+								<Setter.Value>
+									<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
+										<Binding Path="RelativeBounds.X"/>
+										<Binding Path="Bounds.Width" RelativeSource="{RelativeSource AncestorType=Canvas}"/>
+									</MultiBinding>
+								</Setter.Value>
+							</Setter>
+							<Setter Property="Canvas.Top">
+								<Setter.Value>
+									<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
+										<Binding Path="RelativeBounds.Y"/>
+										<Binding Path="Bounds.Height" RelativeSource="{RelativeSource AncestorType=Canvas}"/>
+									</MultiBinding>
+								</Setter.Value>
+							</Setter>
+							<!-- Sizing -->
+							<Setter Property="Width">
+								<Setter.Value>
+									<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
+										<Binding Path="RelativeBounds.Width"/>
+										<Binding Path="Bounds.Width" RelativeSource="{RelativeSource AncestorType=Canvas}"/>
+									</MultiBinding>
+								</Setter.Value>
+							</Setter>
+							<Setter Property="Height">
+								<Setter.Value>
+									<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
+										<Binding Path="RelativeBounds.Height"/>
+										<Binding Path="Bounds.Height" RelativeSource="{RelativeSource AncestorType=Canvas}"/>
+									</MultiBinding>
+								</Setter.Value>
+							</Setter>
+						</Style>
+					</ItemsControl.Styles>
+				</ItemsControl>
 
-			<ItemsControl ItemsSource="{Binding Screens}" VerticalAlignment="Top">
-				<ItemsControl.ItemsPanel>
-					<ItemsPanelTemplate>
-						<Canvas Height="200" Background="DarkGreen" Margin="3">
-							<Canvas.Width>
-								<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
-									<Binding Path="RelativeWidthComparedToHeight"/>
-									<Binding Path="Bounds.Height" RelativeSource="{RelativeSource Self}"/>
-								</MultiBinding>
-							</Canvas.Width>
-						</Canvas>
-					</ItemsPanelTemplate>
-				</ItemsControl.ItemsPanel>
-				<ItemsControl.ItemTemplate>
-					<DataTemplate>
-						<!-- Button styled as a rectangle -->
-						<Button Command="{Binding ToggleSelectionCommand}"
-								Background="{Binding IsSelected, Converter={StaticResource BoolToBrushConverter}, ConverterParameter='Green,DarkGray'}"
-								BorderBrush="{Binding IsSelected, Converter={StaticResource BoolToBrushConverter}, ConverterParameter='OrangeRed,DarkGray'}"
-								BorderThickness="5"
-								HorizontalAlignment="Stretch"
-								VerticalAlignment="Stretch">
-							<!-- Display screen details -->
-							<Viewbox Stretch="Uniform"
-									 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-								<TextBlock Text="{Binding DisplayName}"
-										   HorizontalAlignment="Center"
-										   VerticalAlignment="Center"
-										   TextAlignment="Center"
-										   Foreground="White" />
-							</Viewbox>
-						</Button>
-					</DataTemplate>
-				</ItemsControl.ItemTemplate>
-				<ItemsControl.Styles>
-					<Style Selector="ContentPresenter" x:DataType="localmodels:ScreenInfo">
-						<!-- Positioning -->
-						<Setter Property="Canvas.Left">
-							<Setter.Value>
-								<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
-									<Binding Path="RelativeBounds.X"/>
-									<Binding Path="Bounds.Width" RelativeSource="{RelativeSource AncestorType=Canvas}"/>
-								</MultiBinding>
-							</Setter.Value>
-						</Setter>
-						<Setter Property="Canvas.Top">
-							<Setter.Value>
-								<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
-									<Binding Path="RelativeBounds.Y"/>
-									<Binding Path="Bounds.Height" RelativeSource="{RelativeSource AncestorType=Canvas}"/>
-								</MultiBinding>
-							</Setter.Value>
-						</Setter>
-						<!-- Sizing -->
-						<Setter Property="Width">
-							<Setter.Value>
-								<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
-									<Binding Path="RelativeBounds.Width"/>
-									<Binding Path="Bounds.Width" RelativeSource="{RelativeSource AncestorType=Canvas}"/>
-								</MultiBinding>
-							</Setter.Value>
-						</Setter>
-						<Setter Property="Height">
-							<Setter.Value>
-								<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
-									<Binding Path="RelativeBounds.Height"/>
-									<Binding Path="Bounds.Height" RelativeSource="{RelativeSource AncestorType=Canvas}"/>
-								</MultiBinding>
-							</Setter.Value>
-						</Setter>
-					</Style>
-				</ItemsControl.Styles>
-			</ItemsControl>
-
-			<Button Command="{Binding ApplyCommand}" Content="Apply"/>
-
+				<Button Command="{Binding ApplyCommand}" Content="Apply"/>
+			</StackPanel>
 
 
 

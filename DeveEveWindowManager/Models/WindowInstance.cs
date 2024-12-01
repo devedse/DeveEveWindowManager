@@ -5,7 +5,7 @@ namespace DeveEveWindowManager.Models
 {
     public class WindowInstance
     {
-        public string WindowTitle { get; set; }
+        public required string WindowTitle { get; set; }
         public IntPtr HWnd { get; set; }     
     }
 }

@@ -16,8 +16,16 @@ namespace DeveEveWindowManager.Services
 
         public IEnumerable<ScreenInfo> GetScreens()
         {
-            var blah = (IClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime;
+            var blah = Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
+            if (blah == null)
+            {
+                return [];
+            }
             var mainWindow = blah.MainWindow;
+            if (mainWindow == null)
+            {
+                return [];
+            }
 
             //var mainWindow2 = MainWindow.MainWindowDingFirstTimeOnlyForReadingScreens;
 

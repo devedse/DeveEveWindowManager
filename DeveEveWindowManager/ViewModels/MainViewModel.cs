@@ -22,9 +22,6 @@ public partial class MainViewModel : ViewModelBase
     public ObservableCollection<WindowInstance> EveInstances { get; } = new();
 
     public ICommand LoadScreensCommand => new RelayCommand(LoadScreens);
-    [ObservableProperty]
-    private ScreenInfo? _selectedScreen;
-
     public ICommand LoadWindowInstancesCommand => new RelayCommand(LoadWindowInstances);
     [ObservableProperty]
     private WindowInstance? _selectedEveInstance;
@@ -73,11 +70,14 @@ public partial class MainViewModel : ViewModelBase
 
     private void Apply()
     {
-        if (_selectedScreen == null || _selectedEveInstance == null)
+        if (SelectedEveInstance == null)
         {
             return;
         }
-        _windowService?.MoveWindowToScreen(_selectedEveInstance, _selectedScreen);
+
+        var selectedScreens = Screens.Where(t => t.IsSelected).ToList();
+ 
+        _windowService?.MoveAndResizeWindow(SelectedEveInstance, selectedScreens);
     }
 
     private List<ScreenInfo> MockScreens()
