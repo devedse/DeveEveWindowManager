@@ -12,16 +12,19 @@ namespace DeveEveWindowManager.Converters
     {
         public object Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (values.Count >= 2)
+            double retval = 0;
+
+            if (values.Count == 2)
             {
                 Console.WriteLine("values[0]: " + values[0] + " values[1]: " + values[1]);
                 if (values[0] is double relativeValue && values[1] is double actualSize)
                 {
-                    return relativeValue * actualSize;
+                    retval = relativeValue * actualSize;
                 }
             }
 
-            return 0;
+            Console.WriteLine("\tretval: " + retval);
+            return retval;
         }
 
         public object? ConvertBack(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)

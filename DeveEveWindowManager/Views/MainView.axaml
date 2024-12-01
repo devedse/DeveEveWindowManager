@@ -17,8 +17,10 @@
 	<StackPanel>
 		<StackPanel.Resources>
 			<localconverters:TextCaseConverter x:Key="TextCaseConverter" />
+			<localconverters:RelativeToActualConverter x:Key="RelativeToActualConverter" />
+			<localconverters:RelativeToActualMultiConverter x:Key="RelativeToActualMultiConverter" />
 		</StackPanel.Resources>
-		
+
 		<TextBlock Text="{Binding Greeting}"/>
 
 		<ItemsControl ItemsSource="{Binding Screens}">
@@ -29,17 +31,48 @@
 			</ItemsControl.ItemsPanel>
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<Rectangle Fill="Green" Height="{Binding Size}" Width="{Binding Size}"/>
+					<!--<Rectangle Fill="Green" Height="{Binding Size}" Width="{Binding Size}"/>-->
+					<Rectangle Fill="Green">
+						<!-- Bind Width using the converter -->
+						<Rectangle.Width>
+							<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
+								<Binding Path="RelativeBounds.Width"/>
+								<Binding Path="Width" RelativeSource="{RelativeSource AncestorType=Canvas}"/>
+							</MultiBinding>
+						</Rectangle.Width>
+						<!-- Bind Height using the converter -->
+						<Rectangle.Height>
+							<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
+								<Binding Path="RelativeBounds.Height"/>
+								<Binding Path="Height" RelativeSource="{RelativeSource AncestorType=Canvas}"/>
+							</MultiBinding>
+						</Rectangle.Height>
+					</Rectangle>
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 			<ItemsControl.Styles>
 				<Style Selector="ContentPresenter" x:DataType="localmodels:ScreenInfo">
-					<Setter Property="Canvas.Left" Value="{Binding TopX}"/>
-					<Setter Property="Canvas.Top" Value="{Binding TopY}"/>
+					<Setter Property="Canvas.Left">
+						<Setter.Value>
+							<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
+								<Binding Path="RelativeBounds.X"/>
+								<Binding Path="Width" RelativeSource="{RelativeSource AncestorType=Canvas}"/>
+							</MultiBinding>
+						</Setter.Value>
+					</Setter>
+
+					<Setter Property="Canvas.Top">
+						<Setter.Value>
+							<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
+								<Binding Path="RelativeBounds.Y"/>
+								<Binding Path="Height" RelativeSource="{RelativeSource AncestorType=Canvas}"/>
+							</MultiBinding>
+						</Setter.Value>
+					</Setter>
 				</Style>
 			</ItemsControl.Styles>
 		</ItemsControl>
 
 	</StackPanel>
-	
+
 </UserControl>
