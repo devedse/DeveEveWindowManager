@@ -21,6 +21,8 @@
 			<localconverters:RelativeToActualMultiConverter x:Key="RelativeToActualMultiConverter" />
 			<localconverters:BoolToBrushConverter x:Key="BoolToBrushConverter" />
 		</DockPanel.Resources>
+		
+		
 
 		<TextBlock DockPanel.Dock="Top" Text="{Binding Greeting}"/>
 
