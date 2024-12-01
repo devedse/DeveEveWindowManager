@@ -6,6 +6,7 @@ using DeveEveWindowManager.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 
 namespace DeveEveWindowManager.ViewModels;
@@ -19,6 +20,8 @@ public partial class MainViewModel : ViewModelBase
     public ObservableCollection<ScreenInfo> Screens { get; }
 
     public ICommand LoadScreensCommand => new RelayCommand(LoadScreens);
+
+    public double RelativeWidthComparedToHeight => (double)Screens.Max(t => t.OriginalBounds.X + t.OriginalBounds.Width) / Screens.Max(t => t.OriginalBounds.Y + t.OriginalBounds.Height);
 
     public MainViewModel()
     {

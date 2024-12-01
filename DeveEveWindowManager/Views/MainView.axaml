@@ -22,13 +22,22 @@
 		</StackPanel.Resources>
 
 		<TextBlock Text="{Binding Greeting}"/>
+		<TextBlock Text="{Binding RelativeWidthComparedToHeight}"/>
 
 		<Button Command="{Binding LoadScreensCommand}" Content="Reload Screens"/>
 
 		<ItemsControl ItemsSource="{Binding Screens}">
 			<ItemsControl.ItemsPanel>
 				<ItemsPanelTemplate>
-					<Canvas Width="600" Height="250" Background="Blue" Margin="3"/>
+					<Canvas Height="200" Background="Blue" Margin="3">
+						<Canvas.Width>
+							<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
+								<!-- Grab RelativeWidthComparedToHeight from the viewmodel -->
+								<Binding Path="RelativeWidthComparedToHeight"/>
+								<Binding Path="Bounds.Height" RelativeSource="{RelativeSource Self}"/>
+							</MultiBinding>
+						</Canvas.Width>
+					</Canvas>
 				</ItemsPanelTemplate>
 			</ItemsControl.ItemsPanel>
 			<ItemsControl.ItemTemplate>
@@ -55,7 +64,7 @@
 						<Setter.Value>
 							<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
 								<Binding Path="RelativeBounds.X"/>
-								<Binding Path="Width" RelativeSource="{RelativeSource AncestorType=Canvas}"/>
+								<Binding Path="Bounds.Width" RelativeSource="{RelativeSource AncestorType=Canvas}"/>
 							</MultiBinding>
 						</Setter.Value>
 					</Setter>
@@ -63,7 +72,7 @@
 						<Setter.Value>
 							<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
 								<Binding Path="RelativeBounds.Y"/>
-								<Binding Path="Height" RelativeSource="{RelativeSource AncestorType=Canvas}"/>
+								<Binding Path="Bounds.Height" RelativeSource="{RelativeSource AncestorType=Canvas}"/>
 							</MultiBinding>
 						</Setter.Value>
 					</Setter>
@@ -72,7 +81,7 @@
 						<Setter.Value>
 							<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
 								<Binding Path="RelativeBounds.Width"/>
-								<Binding Path="Width" RelativeSource="{RelativeSource AncestorType=Canvas}"/>
+								<Binding Path="Bounds.Width" RelativeSource="{RelativeSource AncestorType=Canvas}"/>
 							</MultiBinding>
 						</Setter.Value>
 					</Setter>
@@ -80,7 +89,7 @@
 						<Setter.Value>
 							<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
 								<Binding Path="RelativeBounds.Height"/>
-								<Binding Path="Height" RelativeSource="{RelativeSource AncestorType=Canvas}"/>
+								<Binding Path="Bounds.Height" RelativeSource="{RelativeSource AncestorType=Canvas}"/>
 							</MultiBinding>
 						</Setter.Value>
 					</Setter>
