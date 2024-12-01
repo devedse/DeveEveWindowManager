@@ -21,6 +21,9 @@ namespace DeveEveWindowManager.Models
         [ObservableProperty]
         private bool _isSelected;
 
+        [ObservableProperty]
+        private double _idealCameraCenter;
+
         public ICommand? ToggleSelectionCommand => new RelayCommand(() =>
         {
             IsSelected = !IsSelected;

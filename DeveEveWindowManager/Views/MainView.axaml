@@ -21,15 +21,15 @@
 			<localconverters:RelativeToActualMultiConverter x:Key="RelativeToActualMultiConverter" />
 			<localconverters:BoolToBrushConverter x:Key="BoolToBrushConverter" />
 		</DockPanel.Resources>
-		
-		
+
+
 
 		<TextBlock DockPanel.Dock="Top" Text="{Binding Greeting}"/>
 
-		<StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-			<Button Command="{Binding LoadScreensCommand}" Content="Reload Screens"/>
+		<!--<StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+			<Button BorderThickness="5" Command="{Binding LoadScreensCommand}" Content="Reload Screens"/>
 			<Button Margin="10,0,0,0" Command="{Binding LoadWindowInstancesCommand}" Content="Reload Eve Instances"/>
-		</StackPanel>
+		</StackPanel>-->
 
 		<StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
 
@@ -74,18 +74,27 @@
 							<!-- Button styled as a rectangle -->
 							<Button Command="{Binding ToggleSelectionCommand}"
 									Background="{Binding IsSelected, Converter={StaticResource BoolToBrushConverter}, ConverterParameter='Green,DarkGray'}"
-									BorderBrush="{Binding IsSelected, Converter={StaticResource BoolToBrushConverter}, ConverterParameter='OrangeRed,DarkGray'}"
+									BorderBrush="{Binding IsSelected, Converter={StaticResource BoolToBrushConverter}, ConverterParameter='OrangeRed,SlateGray'}"
 									BorderThickness="5"
 									HorizontalAlignment="Stretch"
 									VerticalAlignment="Stretch">
 								<!-- Display screen details -->
 								<Viewbox Stretch="Uniform"
 										 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-									<TextBlock Text="{Binding ScreenDetails}"
-											   HorizontalAlignment="Center"
-											   VerticalAlignment="Center"
-											   TextAlignment="Center"
-											   Foreground="White" />
+									<StackPanel>
+										<TextBlock Text="{Binding ScreenDetails}"
+												   HorizontalAlignment="Center"
+												   VerticalAlignment="Center"
+												   TextAlignment="Center"
+												   Foreground="White" />
+										<TextBlock Text="{Binding IdealCameraCenter, Mode=OneWay, StringFormat=Camera center: {0}}"
+												   FontSize="6"
+												   HorizontalAlignment="Center"
+												   VerticalAlignment="Center"
+												   TextAlignment="Center"
+												   Foreground="White"
+												   IsVisible="{Binding IsSelected}"/>
+									</StackPanel>
 								</Viewbox>
 							</Button>
 						</DataTemplate>
