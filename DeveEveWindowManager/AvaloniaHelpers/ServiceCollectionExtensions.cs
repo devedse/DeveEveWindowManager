@@ -9,6 +9,7 @@ namespace DeveEveWindowManager.AvaloniaHelpers
         public static void AddCommonServices(this IServiceCollection collection)
         {
             collection.AddSingleton<ScreenService>();
+            collection.AddSingleton<WindowService>();
 
             collection.AddTransient<MainViewModel>();
         }

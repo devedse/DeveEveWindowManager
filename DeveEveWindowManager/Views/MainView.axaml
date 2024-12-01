@@ -25,6 +25,22 @@
 		<TextBlock Text="{Binding RelativeWidthComparedToHeight}"/>
 
 		<Button Command="{Binding LoadScreensCommand}" Content="Reload Screens"/>
+		<Button Command="{Binding LoadWindowInstancesCommand}" Content="Reload Eve Instances"/>
+
+		<!-- Display Eve Instances -->
+		<ItemsControl ItemsSource="{Binding EveInstances}">
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<Border Background="Gray" CornerRadius="5" Padding="10" Margin="5">
+						<TextBlock Text="{Binding WindowTitle}"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="16"
+                                   Foreground="White" />
+					</Border>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
 
 		<ItemsControl ItemsSource="{Binding Screens}">
 			<ItemsControl.ItemsPanel>

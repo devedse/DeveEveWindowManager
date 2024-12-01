@@ -15,34 +15,54 @@ public partial class MainViewModel : ViewModelBase
 {
     [ObservableProperty]
     private string _greeting = "Welcome to DeveEveWindowManager, please click on Reload screens first";
-    private readonly ScreenService _screenService;
+    private readonly ScreenService? _screenService;
+    private readonly WindowService? _windowService;
 
-    public ObservableCollection<ScreenInfo> Screens { get; }
+    public ObservableCollection<ScreenInfo> Screens { get; } = new();
+    public ObservableCollection<WindowInstance> EveInstances { get; } = new();
 
     public ICommand LoadScreensCommand => new RelayCommand(LoadScreens);
+    public ICommand LoadWindowInstancesCommand => new RelayCommand(LoadWindowInstances);
 
-    public double RelativeWidthComparedToHeight => (double)Screens.Max(t => t.OriginalBounds.X + t.OriginalBounds.Width) / Screens.Max(t => t.OriginalBounds.Y + t.OriginalBounds.Height);
+    public double RelativeWidthComparedToHeight => Screens.Count == 0 ? 1 : (double)Screens.Max(t => t.OriginalBounds.X + t.OriginalBounds.Width) / Screens.Max(t => t.OriginalBounds.Y + t.OriginalBounds.Height);
 
     public MainViewModel()
     {
         //Design time
-        Screens = new ObservableCollection<ScreenInfo>(MockScreens());
-
+        foreach (var screen in MockScreens())
+        {
+            Screens.Add(screen);
+        }
+        EveInstances.Add(new WindowInstance()
+        {
+            WindowTitle = "EVE - Devedse"
+        });
     }
 
-    public MainViewModel(ScreenService screenService)
+    public MainViewModel(ScreenService screenService, WindowService windowService)
     {
-        Screens = new ObservableCollection<ScreenInfo>(MockScreens());
+        Screens.CollectionChanged += (sender, e) => OnPropertyChanged(nameof(RelativeWidthComparedToHeight));
+
         _screenService = screenService;
+        _windowService = windowService;
     }
 
 
     private void LoadScreens()
     {
         Screens.Clear();
-        foreach (var screen in _screenService.GetScreens())
+        foreach (var screen in _screenService?.GetScreens() ?? [])
         {
             Screens.Add(screen);
+        }
+    }
+
+    private void LoadWindowInstances()
+    {
+        EveInstances.Clear();
+        foreach (var windowInstance in _windowService?.GetEveWindows() ?? [])
+        {
+            EveInstances.Add(windowInstance);
         }
     }
 
