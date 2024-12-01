@@ -19,6 +19,7 @@
 			<localconverters:TextCaseConverter x:Key="TextCaseConverter" />
 			<localconverters:RelativeToActualConverter x:Key="RelativeToActualConverter" />
 			<localconverters:RelativeToActualMultiConverter x:Key="RelativeToActualMultiConverter" />
+			<localconverters:BoolToBrushConverter x:Key="BoolToBrushConverter" />
 		</DockPanel.Resources>
 
 		<TextBlock DockPanel.Dock="Top" Text="{Binding Greeting}"/>
@@ -48,13 +49,17 @@
 			</ListBox>
 
 
+
+
+
+
+
 			<ItemsControl ItemsSource="{Binding Screens}" VerticalAlignment="Top">
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>
-						<Canvas Height="200" Background="Blue" Margin="3">
+						<Canvas Height="200" Background="DarkGreen" Margin="3">
 							<Canvas.Width>
 								<MultiBinding Converter="{StaticResource RelativeToActualMultiConverter}">
-									<!-- Grab RelativeWidthComparedToHeight from the viewmodel -->
 									<Binding Path="RelativeWidthComparedToHeight"/>
 									<Binding Path="Bounds.Height" RelativeSource="{RelativeSource Self}"/>
 								</MultiBinding>
@@ -64,19 +69,23 @@
 				</ItemsControl.ItemsPanel>
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
-						<!-- Corrected the Border properties -->
-						<Border Background="Green" BorderBrush="OrangeRed" BorderThickness="5"
-								HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-							<!-- Viewbox scales the TextBlock to fit inside the Border -->
+						<!-- Button styled as a rectangle -->
+						<Button Command="{Binding ToggleSelectionCommand}"
+								Background="{Binding IsSelected, Converter={StaticResource BoolToBrushConverter}, ConverterParameter='Green,DarkGray'}"
+								BorderBrush="{Binding IsSelected, Converter={StaticResource BoolToBrushConverter}, ConverterParameter='OrangeRed,DarkGray'}"
+								BorderThickness="5"
+								HorizontalAlignment="Stretch"
+								VerticalAlignment="Stretch">
+							<!-- Display screen details -->
 							<Viewbox Stretch="Uniform"
 									 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-								<TextBlock Text="{Binding ScreenDetails}"
+								<TextBlock Text="{Binding DisplayName}"
 										   HorizontalAlignment="Center"
 										   VerticalAlignment="Center"
 										   TextAlignment="Center"
 										   Foreground="White" />
 							</Viewbox>
-						</Border>
+						</Button>
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>
 				<ItemsControl.Styles>
@@ -118,6 +127,13 @@
 					</Style>
 				</ItemsControl.Styles>
 			</ItemsControl>
+
+			<Button Command="{Binding ApplyCommand}" Content="Apply"/>
+
+
+
+
+
 		</StackPanel>
 
 	</DockPanel>

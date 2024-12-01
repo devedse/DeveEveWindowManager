@@ -1,9 +1,12 @@
 ﻿using Avalonia;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
+using System.Windows.Input;
 
 namespace DeveEveWindowManager.Models
 {
-    public class ScreenInfo
+    public partial class ScreenInfo : ObservableObject
     {
         public PixelRect OriginalBounds { get; set; }
         public Rect RelativeBounds { get; set; }
@@ -14,5 +17,13 @@ namespace DeveEveWindowManager.Models
         public double Scaling { get; set; }
 
         public string ScreenDetails => $"{DisplayName}{Environment.NewLine}({OriginalBounds.Width}x{OriginalBounds.Height})";
+
+        [ObservableProperty]
+        private bool _isSelected;
+
+        public ICommand? ToggleSelectionCommand => new RelayCommand(() =>
+        {
+            IsSelected = !IsSelected;
+        });
     }
 }

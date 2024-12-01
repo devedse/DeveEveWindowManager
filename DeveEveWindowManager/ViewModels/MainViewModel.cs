@@ -22,9 +22,14 @@ public partial class MainViewModel : ViewModelBase
     public ObservableCollection<WindowInstance> EveInstances { get; } = new();
 
     public ICommand LoadScreensCommand => new RelayCommand(LoadScreens);
+    [ObservableProperty]
+    private ScreenInfo? _selectedScreen;
+
     public ICommand LoadWindowInstancesCommand => new RelayCommand(LoadWindowInstances);
     [ObservableProperty]
     private WindowInstance? _selectedEveInstance;
+
+    public ICommand ApplyCommand => new RelayCommand(() => Apply());
 
     public double RelativeWidthComparedToHeight => Screens.Count == 0 ? 1 : (double)Screens.Max(t => t.OriginalBounds.X + t.OriginalBounds.Width) / Screens.Max(t => t.OriginalBounds.Y + t.OriginalBounds.Height);
 
@@ -66,6 +71,15 @@ public partial class MainViewModel : ViewModelBase
         }
     }
 
+    private void Apply()
+    {
+        if (_selectedScreen == null || _selectedEveInstance == null)
+        {
+            return;
+        }
+        _windowService?.MoveWindowToScreen(_selectedEveInstance, _selectedScreen);
+    }
+
     private List<ScreenInfo> MockScreens()
     {
         return new List<ScreenInfo>()
@@ -90,5 +104,4 @@ public partial class MainViewModel : ViewModelBase
                 }
             };
     }
-
 }
