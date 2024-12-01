@@ -15,7 +15,7 @@ namespace DeveEveWindowManager.ViewModels;
 public partial class MainViewModel : ViewModelBase
 {
     [ObservableProperty]
-    private string _greeting = "Welcome to DeveEveWindowManager, please send any donations to Devedse (ingame)";
+    private string _greeting = "Welcome to DeveEveWindowManager, select your client window and the screens you want the window to show at.";
     private readonly ScreenService? _screenService;
     private readonly WindowService? _windowService;
 
