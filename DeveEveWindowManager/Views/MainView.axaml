@@ -16,7 +16,7 @@
 
 	<DockPanel>
 		<DockPanel.Background>
-			<ImageBrush Source="/Images/bg2.webp" Stretch="UniformToFill"/>
+			<ImageBrush Source="/Images/bg2_big.webp" Stretch="UniformToFill"/>
 		</DockPanel.Background>
 
 		<DockPanel.Resources>

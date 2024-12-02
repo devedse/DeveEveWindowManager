@@ -11,7 +11,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <None Remove="Images\bg2.webp" />
+    <None Remove="Images\bg2_big.webp" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,12 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AvaloniaResource Include="Images\bg2.webp">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </AvaloniaResource>
-  </ItemGroup>
-
-  <ItemGroup>
+    <AvaloniaResource Include="Images\bg2_big.webp" />
     <AvaloniaResource Include="Images\DeveEveWindowManager.ico" />
   </ItemGroup>
 </Project>
