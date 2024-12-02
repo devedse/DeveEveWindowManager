@@ -16,14 +16,14 @@ namespace DeveEveWindowManager.Converters
 
             if (values.Count == 2)
             {
-                Console.WriteLine("values[0]: " + values[0] + " values[1]: " + values[1]);
+                //Console.WriteLine("values[0]: " + values[0] + " values[1]: " + values[1]);
                 if (values[0] is double relativeValue && values[1] is double actualSize)
                 {
                     retval = relativeValue * actualSize;
                 }
             }
 
-            Console.WriteLine("\tretval: " + retval);
+            //Console.WriteLine("\tretval: " + retval);
             return retval;
         }
 

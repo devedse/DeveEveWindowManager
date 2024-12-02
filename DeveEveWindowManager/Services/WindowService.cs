@@ -1,39 +1,13 @@
-﻿using Avalonia.Threading;
-using DeveEveWindowManager.Models;
+﻿using DeveEveWindowManager.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace DeveEveWindowManager.Services
 {
     public class WindowService
     {
-        // Delegate for EnumWindows callback
-        private delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
-
-        // Import necessary functions from user32.dll
-        [DllImport("user32.dll")]
-        private static extern bool EnumWindows(EnumWindowsProc lpEnumFunc, IntPtr lParam);
-
-        [DllImport("user32.dll")]
-        private static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
-
-        [DllImport("user32.dll")]
-        private static extern bool IsWindowVisible(IntPtr hWnd);
-
-        [DllImport("user32.dll")]
-        private static extern bool SetWindowPos(
-            IntPtr hWnd, IntPtr hWndInsertAfter,
-            int X, int Y, int cx, int cy, uint uFlags
-        );
-
-        // Constants for SetWindowPos
-        private const uint SWP_NOZORDER = 0x0004;
-        private const uint SWP_SHOWWINDOW = 0x0040;
-
         public WindowService() { }
 
         public List<WindowInstance> GetEveWindows()
@@ -41,16 +15,22 @@ namespace DeveEveWindowManager.Services
             var foundWindows = new List<WindowInstance>();
 
             // Enumerate all top-level windows
-            EnumWindows(delegate (IntPtr hWnd, IntPtr lParam)
+            WindowServiceInterop.EnumWindows(delegate (IntPtr hWnd, IntPtr lParam)
             {
-                if (IsWindowVisible(hWnd))
+                if (WindowServiceInterop.IsWindowVisible(hWnd))
                 {
                     StringBuilder sb = new StringBuilder(256);
-                    GetWindowText(hWnd, sb, sb.Capacity);
+                    WindowServiceInterop.GetWindowText(hWnd, sb, sb.Capacity);
                     string title = sb.ToString();
                     if (title.IndexOf("EVE - ", StringComparison.OrdinalIgnoreCase) >= 0)
                     {
-                        foundWindows.Add(new WindowInstance() { WindowTitle = title, HWnd = hWnd });
+                        bool hasTitleBar = WindowServiceInterop.HasTitleBar(hWnd);
+                        foundWindows.Add(new WindowInstance()
+                        {
+                            WindowTitle = title,
+                            HWnd = hWnd,
+                            HasTitleBar = hasTitleBar
+                        });
                     }
                 }
                 return true;
@@ -73,11 +53,44 @@ namespace DeveEveWindowManager.Services
                 return;
             }
 
-            // Calculate bounds to stretch across the desired screens
+            // Unmaximize the window if it is maximized
+            if (WindowServiceInterop.IsWindowMaximized(selectedWindow.HWnd))
+            {
+                Console.WriteLine($"Window '{selectedWindow.WindowTitle}' is maximized. Restoring it...");
+                WindowServiceInterop.ShowWindow(selectedWindow.HWnd, WindowServiceInterop.SW_RESTORE);
+            }
+
             int left = desiredScreens.Min(screen => screen.OriginalBounds.X);
             int top = desiredScreens.Min(screen => screen.OriginalBounds.Y);
             int right = desiredScreens.Max(screen => screen.OriginalBounds.Right);
             int bottom = desiredScreens.Max(screen => screen.OriginalBounds.Bottom);
+
+            if (selectedWindow.HasTitleBar)
+            {
+                foreach (var screen in desiredScreens.Where(t => t.HasTaskbar))
+                {
+                    if (screen.OriginalBounds.Bottom != screen.WorkingArea.Bottom)
+                    {
+                        //Taskbar on the bottom
+                        bottom = screen.WorkingArea.Bottom;
+                    }
+                    if (screen.OriginalBounds.Right != screen.WorkingArea.Right)
+                    {
+                        //Taskbar on the right
+                        right = screen.WorkingArea.Right;
+                    }
+                    if (screen.OriginalBounds.X != screen.WorkingArea.X)
+                    {
+                        //Taskbar on the left
+                        left = screen.WorkingArea.X;
+                    }
+                    if (screen.OriginalBounds.Y != screen.WorkingArea.Y)
+                    {
+                        //Taskbar on the top
+                        top = screen.WorkingArea.Y;
+                    }
+                }
+            }
 
             int width = right - left;
             int height = bottom - top;
@@ -85,21 +98,26 @@ namespace DeveEveWindowManager.Services
             // Move and resize the window
             if (selectedWindow.HWnd != IntPtr.Zero)
             {
-                SetWindowPos(
+                WindowServiceInterop.SetWindowPos(
                     selectedWindow.HWnd,
                     IntPtr.Zero,
                     left,
                     top,
                     width,
                     height,
-                    SWP_NOZORDER | SWP_SHOWWINDOW);
+                    WindowServiceInterop.SWP_NOZORDER | WindowServiceInterop.SWP_SHOWWINDOW);
                 Console.WriteLine($"Window '{selectedWindow.WindowTitle}' moved and resized to bounds: ({left}, {top}, {width}, {height})");
+
+                if (desiredScreens.Count == 1 && selectedWindow.HasTitleBar == true)
+                {
+                    Console.WriteLine($"Only one screen selected. Maximizing window '{selectedWindow.WindowTitle}'...");
+                    WindowServiceInterop.ShowWindow(selectedWindow.HWnd, WindowServiceInterop.SW_MAXIMIZE);
+                }
             }
             else
             {
                 Console.WriteLine($"Invalid window handle for '{selectedWindow.WindowTitle}'.");
             }
         }
-
     }
 }

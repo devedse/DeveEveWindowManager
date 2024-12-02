@@ -24,6 +24,8 @@ namespace DeveEveWindowManager.Models
         [ObservableProperty]
         private double _idealCameraCenter;
 
+        public bool HasTaskbar => OriginalBounds.Height != WorkingArea.Height;
+
         public ICommand? ToggleSelectionCommand => new RelayCommand(() =>
         {
             IsSelected = !IsSelected;

@@ -42,8 +42,8 @@ public partial class MainViewModel : ViewModelBase
         {
             Screens.Add(screen);
         }
-        EveInstances.Add(new WindowInstance() { WindowTitle = "EVE - Devedse" });
-        EveInstances.Add(new WindowInstance() { WindowTitle = "EVE - AnotherCharacter" });
+        EveInstances.Add(new WindowInstance() { WindowTitle = "EVE - Devedse", HasTitleBar = false });
+        EveInstances.Add(new WindowInstance() { WindowTitle = "EVE - AnotherCharacter", HasTitleBar = false });
     }
 
     public MainViewModel(ScreenService screenService, WindowService windowService)

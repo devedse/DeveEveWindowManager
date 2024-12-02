@@ -8,6 +8,7 @@ using DeveEveWindowManager.ViewModels;
 using DeveEveWindowManager.Views;
 using Microsoft.Extensions.DependencyInjection;
 using DeveEveWindowManager.AvaloniaHelpers;
+using System;
 
 namespace DeveEveWindowManager;
 
@@ -15,6 +16,8 @@ public partial class App : Application
 {
     public override void Initialize()
     {
+        Console.WriteLine($"DeveEveWindowManager Version: {System.Reflection.Assembly.GetExecutingAssembly().GetName().Version}");
+
         AvaloniaXamlLoader.Load(this);
     }
 
