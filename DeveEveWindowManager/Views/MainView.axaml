@@ -27,13 +27,13 @@
 		</DockPanel.Resources>
 
 
-
+		<!-- Header -->
 		<Grid DockPanel.Dock="Top" Background="#CC000000">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
-			<TextBlock Grid.Column="0" Text="{Binding Greeting}" Foreground="White" Padding="20" FontSize="20" />
+			<TextBlock Grid.Column="0" Text="{Binding Greeting}" Foreground="White" Padding="20" FontSize="20" HorizontalAlignment="Center" />
 			<TextBlock Grid.Column="1" Text="{Binding AssemblyVersion, Mode=OneWay, StringFormat=Version: {0}}" Foreground="White" Padding="20" FontSize="20" />
 		</Grid>
 
@@ -45,25 +45,28 @@
 
 		<StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
 
-			<!-- Display Eve Instances -->
-			<ListBox ItemsSource="{Binding EveInstances}"
-					 SelectionMode="Single"
-					 SelectedItem="{Binding SelectedEveInstance, Mode=TwoWay}"
-					 Background="#CC000000">
+			<!-- Left Menu -->
+			<StackPanel Background="#CC000000">
+				<TextBlock Text="Eve Instances:" Foreground="White" FontSize="20" Margin="10" HorizontalAlignment="Center" />
+				<!-- Display Eve Instances -->
+				<ListBox ItemsSource="{Binding EveInstances}"
+						 SelectionMode="Single"
+						 SelectedItem="{Binding SelectedEveInstance, Mode=TwoWay}"
+						 Background="#00000000">
 
-				<ListBox.ItemTemplate>
-					<DataTemplate>
-						<Border Background="Gray" CornerRadius="5" Padding="10" Margin="5">
-							<TextBlock Text="{Binding WindowTitle}"
-									   HorizontalAlignment="Center"
-									   VerticalAlignment="Center"
-									   FontSize="16"
-									   Foreground="White" />
-						</Border>
-					</DataTemplate>
-				</ListBox.ItemTemplate>
-			</ListBox>
-
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<Border Background="Gray" CornerRadius="5" Padding="10" Margin="5">
+								<TextBlock Text="{Binding WindowTitle}"
+										   HorizontalAlignment="Center"
+										   VerticalAlignment="Center"
+										   FontSize="16"
+										   Foreground="White" />
+							</Border>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+			</StackPanel>
 
 
 
